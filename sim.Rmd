@@ -1,0 +1,71 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r}
+library(reshape2)
+library(rpart)
+library(sp)
+library(rgdal)
+
+
+source("Fun_treeall.R")
+source("Fun_treeall_map.R")
+source("Fun_shap.R")
+
+# Read simulated data
+sim_1 <- read.csv("sim_data182uniform.csv")
+
+sim_1             
+
+
+```
+
+
+```{r}
+
+formula=y ~ X1 + X2+X3
+print(formula)
+
+# Using the GOZH model, traverse all variable combinations
+location <- c("X")
+t1 <- treeall(formula, data = sim_1, location, 0.02)
+
+
+# Save the results of GOZH
+filename <- paste("GOZH_result_sim.csv", sep = "")
+write.table(t1[["all.q"]], file = filename, sep = ",", row.names = TRUE, col.names = TRUE)
+
+```
+
+
+
+
+```{r}
+# read the results of GOZH
+df <- read.csv(filename)
+rownames(df) <- df$var
+df
+
+```
+
+```{r}
+# Using the LESH model, get the variable contribution
+
+VARS_LIST <- c("X1", "X2","X3")
+shap_values <- Shap_calcute(vars = VARS_LIST, pd_data = df)
+result <- data.frame(t(shap_values))
+result
+```
+
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
