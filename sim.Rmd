@@ -22,8 +22,6 @@ source("Fun_shap.R")
 sim_1 <- read.csv("sim_data182uniform.csv")
 
 sim_1             
-
-
 ```
 
 
@@ -40,9 +38,7 @@ t1 <- treeall(formula, data = sim_1, location, 0.02)
 # Save the results of GOZH
 filename <- paste("GOZH_result_sim.csv", sep = "")
 write.table(t1[["all.q"]], file = filename, sep = ",", row.names = TRUE, col.names = TRUE)
-
 ```
-
 
 
 
