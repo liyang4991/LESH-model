@@ -2,6 +2,9 @@
 
 This code is for the [LESH model](https://www.tandfonline.com/doi/full/10.1080/17538947.2023.2271883) :'A locally explained heterogeneity model for examining wetland disparity'.
 
+![image](https://github.com/user-attachments/assets/d51edc97-d62d-4b81-ad8b-908e001a660c)
+<center> The workflow of the LESH model </center>
+
 ## usage
 "Fun_treeall.R" is a R function file for [GOZH model](https://www.sciencedirect.com/science/article/pii/S0924271622000132). 
 
