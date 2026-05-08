@@ -8,9 +8,28 @@ This code is for the [LESH model](https://www.tandfonline.com/doi/full/10.1080/1
 ## usage
 "Fun_treeall.R" is a R function file for [GOZH model](https://www.sciencedirect.com/science/article/pii/S0924271622000132). 
 
-"Fun_Shap.R" is a R function file for LESH model.
+"Fun_shap.R" is a R function file for LESH model.
+
+"run_lesh.R" is a unified entry that runs GOZH + LESH in one call.
 
 "sim.Rmd" provides an example. A simulation data is used to demonstrate the process of calculating SPD.
+
+### Quick start
+```r
+source("run_lesh.R")
+
+sim_1 <- read.csv("sim_data182uniform.csv")
+res <- run_lesh(
+  data = sim_1,
+  formula = y ~ X1 + X2 + X3,
+  complexity = 0.02,
+  vars = c("X1", "X2", "X3"),
+  location = c("X")
+)
+
+res$shap_values
+head(res$all.q)
+```
 
 
 ## citation
