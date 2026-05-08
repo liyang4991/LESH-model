@@ -15,8 +15,8 @@ library(rgdal)
 
 
 source("Fun_treeall.R")
-source("Fun_treeall_map.R")
 source("Fun_shap.R")
+source("run_lesh.R")
 
 # Read simulated data
 sim_1 <- read.csv("sim_data182uniform.csv")
@@ -30,14 +30,18 @@ sim_1
 formula=y ~ X1 + X2+X3
 print(formula)
 
-# Using the GOZH model, traverse all variable combinations
-location <- c("X")
-t1 <- treeall(formula, data = sim_1, location, 0.02)
+# Unified entry for GOZH + LESH
+res <- run_lesh(
+  data = sim_1,
+  formula = formula,
+  complexity = 0.02,
+  vars = c("X1", "X2", "X3"),
+  location = c("X")
+)
 
-
-# Save the results of GOZH
-filename <- paste("GOZH_result_sim.csv", sep = "")
-write.table(t1[["all.q"]], file = filename, sep = ",", row.names = TRUE, col.names = TRUE)
+# Save the GOZH results
+filename <- "GOZH_result_sim.csv"
+write.table(res[["all.q"]], file = filename, sep = ",", row.names = TRUE, col.names = TRUE)
 ```
 
 
@@ -52,10 +56,7 @@ df
 
 ```{r}
 # Using the LESH model, get the variable contribution
-
-VARS_LIST <- c("X1", "X2","X3")
-shap_values <- Shap_calcute(vars = VARS_LIST, pd_data = df)
-result <- data.frame(t(shap_values))
+result <- data.frame(t(res$shap_values))
 result
 ```
 

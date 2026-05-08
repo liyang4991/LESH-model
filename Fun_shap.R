@@ -84,7 +84,7 @@ Shap_calcute <- function(vars, pd_data) {
   return(result_dict)
 }
 
-Shap_calculate_by_var <- function(var, sets, pd_data) {
+Shap_calculate_by_var <- function(var, sets, pd_data, VARS_LIST = sets) {
   # Calculate SHAP value for a given variable var in the set sets
   # Return: a scalar SHAP value
   
@@ -97,10 +97,10 @@ Shap_calculate_by_var <- function(var, sets, pd_data) {
     
     for (s in 1:(dim_all_situations[2]) ) {
       situation = all_situations[,s]
-      merge_situation <- sorted_var_to_key(c(var, situation))
+      merge_situation <- sorted_var_to_key(c(var, situation), VARS_LIST)
       pd_patch1 <- get_value_by_vars(merge_situation, pd_data)
       
-      situation <- sorted_var_to_key(situation)
+      situation <- sorted_var_to_key(situation, VARS_LIST)
       pd_patch2 <- get_value_by_vars(situation, pd_data)
       
       pd_patch3 <- 1/(Cnm(M-1, i))*(pd_patch1 - pd_patch2)
